@@ -4,6 +4,22 @@ const cnt = document.querySelector('#cnt');
 // *******************************
 // helper functions
 // *******************************
+function createCard(img, name, surname, email, city) {
+  const card = document.createElement('DIV');
+  const cardContent = `
+    <img src="${img}" class="profile-image" alt=""/>
+    <p class="name">${name}</p>
+    <p class="surname">${surname}</p>
+    <p class="email">${email}</p>
+    <p class="city">${city}</p>
+  `;
+  cnt.appendChild(card).classList.add('card');
+  const thisCard = cnt.lastElementChild;
+  // console.log(thisCard);
+  thisCard.innerHTML = cardContent;
+}
+
+
 function checkStatus(response) {
   if (response.ok) {
     return Promise.resolve(response);
@@ -19,26 +35,18 @@ function fetchData(url) {
       .catch(error => console.log('an error has occured!', error))
 }
 
- function getData(data) {
-  const profile = data.results;
-  const firstname = profile.name.first;
-  const lastname = profile.name.last;
-  const email = profile.email;
-  const phone = profile.phone;
-  console.log(firstname + ' ' + lastname + ',' + email + ',' + phone);
+function createProfile(data) {
+  let img = data.picture.medium;
+  let name = data.name.first;
+  let surname = data.name.last;
+  let email = data.email;
+  let city = data.location.city;
+  createCard(img, name, surname, email, city);
 }
 
-function createCard(name, surname, img, id) {
-  const card = document.createElement('DIV');
-  const cardContent = `
-    <img src="${img}" class="profile-image" alt=""/>
-    <p class="name">${name}</p>
-    <p class="surname">${surname}</p>
-  `;
-  cnt.appendChild(card).classList.add('card');
-  const cards = document.querySelector('.card');
-  // const thisCard = cards.lastChild;
-  cards.innerHTML = cardContent;
+ function getPrimaryData(data) {
+  const primaryData = data.map(user => createProfile(user));
+  // console.log(primaryData);
 }
 
 // *******************************
@@ -46,12 +54,4 @@ function createCard(name, surname, img, id) {
 // *******************************
 fetchData(url)
  // .then(data => console.log(data.results))
- .then(data => forEach( => getData(data.results)))
-
-
-
-
-
-
-// createCard();
-// createCard('Fabian', 'Kramer', 'images/me.png');
+ .then( data => getPrimaryData(data.results) )

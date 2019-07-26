@@ -1,0 +1,49 @@
+/*******************************
+base styles
+*******************************/
+* {
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+/*******************************
+grid system
+*******************************/
+body {
+  margin: 1em;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  box-sizing: border-box;
+}
+
+/*******************************
+individual profile cards
+*******************************/
+.card {
+  border: solid black 1px;
+  flex-basis: 300px;
+  z-index: 1000;
+  margin: 0 0 1em 0;
+  padding: 1em;
+  min-width: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+div.info {
+  /* display: flex;
+  flex-direction: column;
+  align-items: flex-start; */
+  margin-left: 1em;
+ }
+.card > img {
+  border-radius: 50%;
+}
+.names {
+  font-weight: bold;
+}

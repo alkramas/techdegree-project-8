@@ -3,6 +3,7 @@ base styles
 *******************************/
 * {
   font-family: 'Alegreya Sans', sans-serif;
+  box-sizing: border-box;
 }
 
 /*******************************
@@ -13,27 +14,34 @@ body {
 }
 .container {
   display: flex;
-  flex-direction: row;
+  /* box-sizing: border-box; */
   flex-wrap: wrap;
+  flex-direction: column;
   /* justify-content: center; */
-  box-sizing: border-box;
+  align-content: center;
+  margin-top: 1em;
 }
-
 /*******************************
 individual profile cards
 *******************************/
 .card {
   border: solid black 1px;
-  flex-basis: 300px;
+  flex-basis: 350px;
   z-index: 1000;
   margin: 0 0 1em 0;
   padding: 1em;
-  min-width: 200px;
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  border-radius: 10px;
+  border: 1px solid grey;
+  background-color: white;
+}
+.card:hover {
+  transform: scale(1.1);
 }
 div.info {
   /* display: flex;
@@ -46,4 +54,66 @@ div.info {
 }
 .names {
   font-weight: bold;
+}
+/*******************************
+modal styles
+*******************************/
+div.m-nav {
+  display: flex;
+  justify-content: space-between;
+}
+a[rel*="modal:open"] {
+  text-decoration: none;
+  color: unset;
+}
+div.m-nav > a {
+  text-decoration: underline;
+  color: grey;
+}
+div.m-nav > a:first-child::before {
+  content: "‹ ";
+  font-size: 1.2em;
+}
+div.m-nav > a:last-child::after {
+  content: " ›";
+  font-size: 1.2em;
+}
+
+/*******************************
+media queries
+*******************************/
+@media (min-width: 382px) {
+  .card {
+    width: 350px;
+  }
+}
+@media (min-width: 748px) {
+  .container {
+    justify-content: center;
+    align-content: revert;
+    flex-direction: row;
+  }
+  .card {
+    width: 350px;
+    flex-direction: row;
+  }
+  .container a:nth-child(2n+1) {
+    margin-right: 1em;
+  }
+}
+@media (min-width: 1114px) {
+  .container a:nth-child(2n+1) {
+    margin-right: 0;
+  }
+  .container a:nth-child(3n+1), .container a:nth-child(3n+2) {
+    margin-right: 1em;
+  }
+}
+@media (min-width: 1480px) {
+  .container a:nth-child(2n+1), .container a:nth-child(3n+1), .container a:nth-child(3n+2) {
+    margin-right: 0;
+  }
+  .container a:nth-child(4n+1), .container a:nth-child(4n+2), .container a:nth-child(4n+3)   {
+    margin-right: 1em;
+  }
 }

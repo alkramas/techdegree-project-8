@@ -1,10 +1,11 @@
 const url = 'https://randomuser.me/api/?results=12';
 const cnt = document.querySelector('#cnt');
+const mcnt = document.querySelector('#mcnt');
 
 // *******************************
 // helper functions
 // *******************************
-function createCard(img, name, surname, email, city, id, phone, address, birthday) {
+function createCard(img, name, surname, email, city, id, phone, address, birthday, previous, next) {
   // const card = document.createElement('DIV');
   const cardContent = `
   <a href="#${id}" rel="modal:open">
@@ -17,6 +18,8 @@ function createCard(img, name, surname, email, city, id, phone, address, birthda
       </div>
     </div>
   </a>
+  `;
+  const modalContent = `
   <div class="modal" id="${id}">
     <img src="${img}" class="profile-image" alt=""/>
     <div class="m-info">
@@ -27,15 +30,16 @@ function createCard(img, name, surname, email, city, id, phone, address, birthda
     <div class="m-details">
       <p class="m-phone">${phone}</p>
       <p class="m-address">${address}</p>
-      <p class="m-birthday">${birthday}</p>
+      <p class="m-birthday">birthday: ${birthday}</p>
+    </div>
+    <div class="m-nav">
+      <a href="#${previous}" rel="modal:open">previous</a>
+      <a href="#${next}" rel="modal:open">next</a>
     </div>
   </div>
   `;
-  // cnt.appendChild(card).classList.add('card');
-  // const thisCard = cnt.lastElementChild;
-  // console.log(thisCard);
-  // thisCard.innerHTML = cardContent;
   cnt.innerHTML += cardContent;
+  mcnt.innerHTML += modalContent;
 }
 
 
@@ -58,6 +62,29 @@ function capFirstChar(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+
+function previousId(id) {
+  if (id === 1) {
+    return id = 12;
+  } else {
+    return id - 1;
+  }
+}
+function nextId(id) {
+  if (id === 12) {
+    return id = 1;
+  } else {
+    return id + 1;
+  }
+}
+function getDOB(dob) {
+  let date = new Date(dob);
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let day = date.getDate();
+  return day + '/' + month + '/' + year;
+}
+
 function createProfile(user, index) {
   // let user = data.;
   let img = user.picture.medium;
@@ -67,25 +94,32 @@ function createProfile(user, index) {
   let city = capFirstChar(user.location.city);
   let id = index + 1;
   let phone = user.cell;
-  let address = capFirstChar(user.location.street);
-  let birthday = user.dob.date;
-  createCard(img, name, surname, email, city, id, phone, address, birthday);
+  let address = capFirstChar(user.location.street) + ', ' + user.location.postcode;
+  let birthday = getDOB(user.dob.date);
+  let previous = previousId(id);
+  let next = nextId(id);
+
+  createCard(img, name, surname, email, city, id, phone, address, birthday, previous, next);
 }
 
- function getPrimaryData(data) {
+ function processData(data) {
   const primaryData = data.map((user, index) => createProfile(user, index));
+  const staffSelect = data.map(user => filter(user));
   console.log(data);
 }
+
+
+
 
 // *******************************
 // fetch data
 // *******************************
 fetchData(url)
- // .then(data => console.log(data.results))
- .then( data => getPrimaryData(data.results) )
- .then( data => search() )
+ .then( data => processData(data.results) )
+ // .then( data => search() )
+
 
 
  // *******************************
- // call modal window plugin
+ // edit modal window plugin
  // *******************************

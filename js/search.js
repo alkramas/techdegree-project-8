@@ -3,53 +3,74 @@
 const searchBox = document.querySelector('.search-box');
 
 // create search or filter tool with this helper funciton
-function createTool(inputType, type, placeholder, id) {
+function createTool(inputType, type, placeholder, name) {
   let newTool = document.createElement(inputType);
+  let newLabel = document.createElement('LABEL');
+  newLabel.setAttribute("for", name);
+  newLabel.innerHTML = placeholder;
   newTool.setAttribute("type", type);
-  newTool.id = id;
-  newTool.placeholder = placeholder;
-  let firstOption = `<option value="all" selected>${placeholder}</option>`;
+  newTool.name = name;
+  newTool.id = name;
+  // newTool.placeholder = placeholder;
+  let label = `<label for="${name}">${placeholder}</label>`;
+  let firstOption = `<option value="all" selected>All</option>`;
   if (inputType === "select") {
       newTool.innerHTML = firstOption;
   }
+  searchBox.appendChild(newLabel);
   searchBox.appendChild(newTool);
 }
 
-createTool("select", "select", "Filter by Names", "filter-names");
-createTool("select", "select", "Filter by Usernames", "filter-username");
+createTool("select", "select", "Filter by name", "filter-names");
+createTool("select", "select", "Filter by username", "filter-username");
 
 
-function searchFilter(eventtype, inputVariable) {
-  inputVariable.addEventListener (eventtype, function() {
+function searchFilter(eventType, inputVariable) {
+  inputVariable.addEventListener (eventType, function() {
     const cardDivs = document.querySelectorAll('.card');
 
     for (let i = 0; i < cardDivs.length; i += 1) {
       let searchInputValue = inputVariable.value.toLowerCase();
-      console.log(searchInputValue);
       let thisCard = cardDivs[i];
-      console.log(thisCard);
+      let userName = thisCard.querySelector('.profile-image').alt;
       let firstName = thisCard.querySelector('.name').textContent;
       let lastName = thisCard.querySelector('.surname').textContent;
       let email = thisCard.querySelector('.email').textContent;
       let city = thisCard.querySelector('.city').textContent;
-      let infoAll = firstName + ' ' + lastName + ' ' + email + ' ' + city;
+      let infoAll = firstName + ' ' + lastName + ' ' + email + ' ' + city + ' ' + userName;
       infoAll = infoAll.toLowerCase();
-      // console.log(infoAll);
 
+      const filterByName = document.querySelector('#filter-names');
+      const filterByUserName = document.querySelector('#filter-username');
+      const search = document.querySelector('#main-search');
+
+      // toggle the select options, only allow one to be filtering
+      if (inputVariable.id == "filter-names") {
+        search.value = '';
+        filterByUserName.value = 'all';
+      } else if (inputVariable.id == "filter-username") {
+          search.value = '';
+          filterByName.value = 'all';
+      } else if (inputVariable.id == "main-search") {
+          filterByUserName.value = 'all';
+          filterByName.value = 'all';
+      }
+
+      // filter/search logic, including reset of filter
       let searchMatch = infoAll.includes(searchInputValue);
-
-      if ( searchMatch == true ) {
+      if ( searchMatch == true || inputVariable.value == 'all' ) {
           thisCard.style.display = 'flex';
       }
       else {
         thisCard.style.display = 'none';
       }
+
     }
   })
 }
 
 function search() {
-  createTool("input", "search", "Search the Employee Directory", "main-search");
+  createTool("input", "search", "Search the directory", "main-search");
   const searchInput = document.querySelector('input[type="search"]');
   searchFilter('input', searchInput);
 }

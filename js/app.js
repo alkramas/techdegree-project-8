@@ -5,12 +5,12 @@ const mcnt = document.querySelector('#mcnt');
 // *******************************
 // helper functions
 // *******************************
-function createCard(img, name, surname, email, city, id, phone, address, birthday, previous, next) {
+function createCard(img, username, name, surname, email, city, id, phone, address, birthday, previous, next) {
   // const card = document.createElement('DIV');
   const cardContent = `
   <a href="#${id}" rel="modal:open">
     <div class="card">
-      <img src="${img}" class="profile-image" alt=""/>
+      <img src="${img}" class="profile-image" alt="${username}"/>
       <div class="info">
         <p class="names"><span class="name">${name}</span>&nbsp;<span class="surname">${surname}</span></p>
         <p class="email">${email}</p>
@@ -21,20 +21,22 @@ function createCard(img, name, surname, email, city, id, phone, address, birthda
   `;
   const modalContent = `
   <div class="modal" id="${id}">
-    <img src="${img}" class="profile-image" alt=""/>
-    <div class="m-info">
-      <p class="m-names"><span class="name">${name}</span>&nbsp;<span class="surname">${surname}</span></p>
-      <p class="m-email">${email}</p>
-      <p class="m-city">${city}</p>
-    </div>
-    <div class="m-details">
-      <p class="m-phone">${phone}</p>
-      <p class="m-address">${address}</p>
-      <p class="m-birthday">birthday: ${birthday}</p>
-    </div>
-    <div class="m-nav">
-      <a href="#${previous}" rel="modal:open">previous</a>
-      <a href="#${next}" rel="modal:open">next</a>
+    <div class="flex" style="display:flex;">
+      <img src="${img}" class="profile-image" alt=""/>
+      <div class="m-info">
+        <p class="m-names"><span class="name">${name}</span>&nbsp;<span class="surname">${surname}</span></p>
+        <p class="m-email">${email}</p>
+        <p class="m-city">${city}</p>
+      </div>
+      <div class="m-details">
+        <p class="m-phone">${phone}</p>
+        <p class="m-address">${address}</p>
+        <p class="m-birthday">birthday: ${birthday}</p>
+      </div>
+      <div class="m-nav">
+        <a href="#${previous}" rel="modal:open">previous</a>
+        <a href="#${next}" rel="modal:open">next</a>
+      </div>
     </div>
   </div>
   `;
@@ -87,7 +89,8 @@ function getDOB(dob) {
 
 function createProfile(user, index) {
   // let user = data.;
-  let img = user.picture.medium;
+  let img = user.picture.large;
+  let username = user.login.username;
   let name = capFirstChar(user.name.first);
   let surname = capFirstChar(user.name.last);
   let email = user.email;
@@ -99,7 +102,7 @@ function createProfile(user, index) {
   let previous = previousId(id);
   let next = nextId(id);
 
-  createCard(img, name, surname, email, city, id, phone, address, birthday, previous, next);
+  createCard(img, username, name, surname, email, city, id, phone, address, birthday, previous, next);
 }
 
  function processData(data) {
@@ -116,7 +119,7 @@ function createProfile(user, index) {
 // *******************************
 fetchData(url)
  .then( data => processData(data.results) )
- // .then( data => search() )
+ .then( data => search() )
 
 
 

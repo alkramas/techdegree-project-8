@@ -2,15 +2,27 @@
 base styles
 *******************************/
 * {
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: 'Assistant', sans-serif;
   box-sizing: border-box;
 }
 
+html {
+      /* background: #2F4454; */
+      background: #5D5C61;
+}
 /*******************************
 grid system
 *******************************/
 body {
   margin: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  /* color: #cececf; */
+  color: #2e2e30;
+  font-weight: normal;
 }
 .container {
   display: flex;
@@ -20,6 +32,7 @@ body {
   /* justify-content: center; */
   align-content: center;
   margin-top: 1em;
+  max-width: 1600px;
 }
 /*******************************
 individual profile cards
@@ -39,6 +52,7 @@ individual profile cards
   border-radius: 10px;
   border: 1px solid grey;
   background-color: white;
+  box-shadow: 3px 3px 20px #4a494d;
 }
 .card:hover {
   transform: scale(1.1);
@@ -51,16 +65,49 @@ div.info {
  }
 .card > img {
   border-radius: 50%;
+  height: auto;
+  width: 80px;
 }
 .names {
   font-weight: bold;
 }
+
+/*******************************
+search box
+*******************************/
+div.search-box {
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  border-bottom: dotted 2px #2e2e30;
+}
+
+div.search-box label {
+  margin-right: 0.4em;
+  color: #cececf;
+}
+div.search-box select, div.search-box input {
+  margin: 0 1em 1em 0;
+}
 /*******************************
 modal styles
 *******************************/
+.flex > img.profile-image {
+  margin: 1em auto;
+  border-radius: 50%;
+}
+.modal > div.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 div.m-nav {
   display: flex;
   justify-content: space-between;
+  align-self: normal;
 }
 a[rel*="modal:open"] {
   text-decoration: none;
@@ -99,6 +146,12 @@ media queries
   }
   .container a:nth-child(2n+1) {
     margin-right: 1em;
+  }
+  div.search-box {
+    flex-direction: row;
+  }
+  div.search-box select, div.search-box input {
+    margin: 0 1em 0 0;
   }
 }
 @media (min-width: 1114px) {

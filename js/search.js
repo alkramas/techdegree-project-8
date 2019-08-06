@@ -24,11 +24,11 @@ function createTool(inputType, type, placeholder, name) {
 createTool("select", "select", "Filter by name", "filter-names");
 createTool("select", "select", "Filter by username", "filter-username");
 
-// test if any search results were found
+
+// helper function to test if any search results were found, handle cases
 function displayMessage() {
   let found = document.querySelectorAll('div[class="card"][style*="flex"]');
   let sorryPresent = document.querySelectorAll('p.sorry');
-  console.log(found);
 
   if (found.length === 0 && sorryPresent.length === 0) {
     let info = document.createElement('p');
@@ -40,6 +40,7 @@ function displayMessage() {
   }
 }
 
+// search and filter function
 function searchFilter(eventType, inputVariable) {
   inputVariable.addEventListener (eventType, function() {
     const cardDivs = document.querySelectorAll('.card');
@@ -87,19 +88,16 @@ function searchFilter(eventType, inputVariable) {
   }) //end of event listener
 } // end of function
 
+
 function search() {
   createTool("input", "search", "Search the directory", "main-search");
   const searchInput = document.querySelector('input[type="search"]');
   searchFilter('input', searchInput);
-
 }
-
-
 
 function filter(user) {
   let selectName = document.querySelector('#filter-names');
   let selectUser = document.querySelector('#filter-username');
-
   let username = user.login.username;
   let firstName = capFirstChar(user.name.first);
   let surName = capFirstChar(user.name.last);

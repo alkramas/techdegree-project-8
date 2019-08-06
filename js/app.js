@@ -108,14 +108,14 @@ function createProfile(user, index) {
  function processData(data) {
   const primaryData = data.map((user, index) => createProfile(user, index));
   const staffSelect = data.map(user => filter(user));
-  console.log(data);
+  // console.log(data);
 }
 
 
 
 
 // *******************************
-// fetch and process data 
+// fetch and process data
 // *******************************
 fetchData(url)
  .then( data => processData(data.results) )

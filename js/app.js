@@ -115,14 +115,8 @@ function createProfile(user, index) {
 
 
 // *******************************
-// fetch data
+// fetch and process data 
 // *******************************
 fetchData(url)
  .then( data => processData(data.results) )
  .then( data => search() )
-
-
-
- // *******************************
- // edit modal window plugin
- // *******************************

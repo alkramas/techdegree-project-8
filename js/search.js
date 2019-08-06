@@ -24,6 +24,21 @@ function createTool(inputType, type, placeholder, name) {
 createTool("select", "select", "Filter by name", "filter-names");
 createTool("select", "select", "Filter by username", "filter-username");
 
+// test if any search results were found
+function displayMessage() {
+  let found = document.querySelectorAll('div[class="card"][style*="flex"]');
+  let sorryPresent = document.querySelectorAll('p.sorry');
+  console.log(found);
+
+  if (found.length === 0 && sorryPresent.length === 0) {
+    let info = document.createElement('p');
+    info.classList.add('sorry');
+    info.textContent = 'Sorry, your search was not successful.';
+    cnt.appendChild(info);
+  } else if (found.length > 0 && sorryPresent.length > 0) {
+    sorryPresent[0].parentNode.removeChild(sorryPresent[0]);
+  }
+}
 
 function searchFilter(eventType, inputVariable) {
   inputVariable.addEventListener (eventType, function() {
@@ -60,19 +75,23 @@ function searchFilter(eventType, inputVariable) {
       let searchMatch = infoAll.includes(searchInputValue);
       if ( searchMatch == true || inputVariable.value == 'all' ) {
           thisCard.style.display = 'flex';
+          thisCard.parentElement.style.display = 'unset';
       }
       else {
         thisCard.style.display = 'none';
+        thisCard.parentElement.style.display = 'none';
       }
+      displayMessage();
 
-    }
-  })
-}
+    } //end of loop
+  }) //end of event listener
+} // end of function
 
 function search() {
   createTool("input", "search", "Search the directory", "main-search");
   const searchInput = document.querySelector('input[type="search"]');
   searchFilter('input', searchInput);
+
 }
 
 
